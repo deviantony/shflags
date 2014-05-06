@@ -1012,7 +1012,7 @@ _flags_parseGetopt()
           break
         fi
         # save generated man page to temporary file
-        flags_manFile_="`mktemp -t \"${0##*/}.1\"`"
+        flags_manFile_="`mktemp -t \"${0##*/}.1.XXX\"`"
         if [ $? -ne 0 ]; then
           flags_error='failed to create temporary man page file name'
           flags_return=${FLAGS_ERROR}
