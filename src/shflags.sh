@@ -1693,7 +1693,7 @@ flags_helpflags()
     # length + 4 for boolean flags because of the '[no]' prefix
     flags_type_=`_flags_getFlagInfo "${flags_usName_}" ${__FLAGS_INFO_TYPE}`
     if [ ${flags_type_} -eq ${__FLAGS_TYPE_BOOLEAN} ]; then
-      flags_nameStrLen_=`expr -- "${flags_nameStrLen}" + 4`
+      flags_nameStrLen_=`expr -- "${flags_nameStrLen_}" + 4`
     fi
     if [ ${flags_nameStrLen_} -gt ${flags_maxNameLen_} ]; then
       flags_maxNameLen_=${flags_nameStrLen_}
