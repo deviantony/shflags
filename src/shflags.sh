@@ -2,6 +2,7 @@
 # Copyright (c) 2008 Kate Ward
 # Copyright (c) 2011 University of Pennsylvania
 # Copyright (c) 2011-2014 Andreas Schuh
+# Copyright (c) 2014 Anthony Lapenna
 # All Rights Reserved.
 #
 # Released under the LGPL (GNU Lesser General Public License)
@@ -9,7 +10,7 @@
 
 ##############################################################################
 # @file   shflags.sh
-# @author Kate Ward <kate.ward at forestent.com>, Andreas Schuh
+# @author Kate Ward <kate.ward at forestent.com>, Andreas Schuh, Anthony Lapenna
 # @brief  Advanced command-line flag library for Unix shell scripts.
 #
 # @sa http://code.google.com/p/shflags/
@@ -17,6 +18,7 @@
 # @note The shFlags implementation by Kate Ward (revision 147) has been
 #       considerably modified by Andreas Schuh as part of the BASIS project
 #       to fit the needs of the SBIA Group at The University of Pennsylvania.
+#       It has also been reviewed by Anthony Lapenna to correct some errors.
 #
 # This module implements something like the google-gflags library available
 # from http://code.google.com/p/google-gflags/.
