@@ -1571,7 +1571,7 @@ flags_usage()
   flags_emptyStr_="`echo \"x${flags_executable_}x\" \
       |awk '{printf "%"length($0)+3"s", ""}'`"
   flags_emptyStrLen_=`expr -- "${flags_emptyStr_}" : '.*'`
-  flags_usage_="$(echo "${flags_emptyStr_}${flags_usage_}" | fmt -l 0 -$(_flags_columns))"
+  flags_usage_="$(echo "${flags_emptyStr_}${flags_usage_}" | fmt -$(_flags_columns))"
   flags_usage_="     ${flags_executable_}${flags_usage_:${flags_emptyStrLen_}}"
   echo "${flags_usage_}"
 
@@ -1648,7 +1648,7 @@ flags_helpflag()
       |awk '{printf "%"length($0)+6"s", ""}'`"
   flags_emptyStrLen_=`expr -- "${flags_emptyStr_}" : '.*'`
   # split long help text on multiple lines
-  flags_helpStr_="$(echo "${flags_emptyStr_}${flags_helpStr_}" | fmt -l 0 -${flags_columns_})"
+  flags_helpStr_="$(echo "${flags_emptyStr_}${flags_helpStr_}" | fmt -${flags_columns_})"
   flags_helpStr_="     ${flags_flagStr_}   ${flags_helpStr_:${flags_emptyStrLen_}}"
   echo "${flags_helpStr_}"
 
@@ -1830,7 +1830,7 @@ flags_help()
     flags_fmtStr_=$(echo "${HELP_DESCRIPTION}"\
         |awk '{printf "%s:NEWLINE:",$0}'\
         |sed 's/^\ *:NEWLINE://g;s/:NEWLINE:\ *$//g;s/:NEWLINE:/:NEWLINE:     /g;s/:NEWLINE:/\\n/g')
-    flags_fmtStr_="$(echo -e "     ${flags_fmtStr_}" | fmt -l 0 -$(_flags_columns))"
+    flags_fmtStr_="$(echo -e "     ${flags_fmtStr_}" | fmt -$(_flags_columns))"
     echo "${flags_fmtStr_}"
   fi
   # flags
@@ -1842,7 +1842,7 @@ flags_help()
     flags_fmtStr_=$(echo "${HELP_CONTACT}"\
         |awk '{printf "%s:NEWLINE:",$0}'\
         |sed 's/^\ *:NEWLINE://g;s/:NEWLINE:$//g;s/:NEWLINE:/:NEWLINE:     /g;s/:NEWLINE:/\\n/g')
-    flags_fmtStr_="$(echo "     ${flags_fmtStr_}" | fmt -l 0 -$(_flags_columns))"
+    flags_fmtStr_="$(echo "     ${flags_fmtStr_}" | fmt -$(_flags_columns))"
     echo "${flags_fmtStr_}"
     echo
   fi
