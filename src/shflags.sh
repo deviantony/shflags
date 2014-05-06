@@ -2266,7 +2266,7 @@ flags_helpman()
 #   integer: success of operation (always returns true)
 flags_version()
 {
-  flags_command_=${HELP_COMMAND:-$0##*/}
+  flags_command_=${HELP_COMMAND:-${0##*/}}
   flags_version_=${HELP_VERSION:-'unknown'}
   echo "${flags_command_} version ${flags_version_}"
   if [ -n "${HELP_COPYRIGHT}" ]; then
