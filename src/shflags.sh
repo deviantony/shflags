@@ -1390,6 +1390,44 @@ DEFINE_multi_int()     { _flags_define ${__FLAGS_TYPE_MULTI_INTEGER} "$@"; }
 DEFINE_multi_string()  { _flags_define ${__FLAGS_TYPE_MULTI_STRING}  "$@"; }
 
 # ----------------------------------------------------------------------------
+# required flags validation
+# ----------------------------------------------------------------------------
+
+##############################################################################
+# This functions validates if the flags specified as 'required' are present
+# on the command line.
+#
+# Args:
+#   none
+# Output:
+#   error message if a required flag is missing
+# Returns:
+#   integer: success of operation, or error
+flags_validate_required_flags()
+{
+    for flags_name_ in ${__flags_longNames}; do
+	flags_missing_short_=0
+	flags_usName_=`_flags_underscoreName ${flags_name_}`
+	flags_category_=`_flags_getFlagInfo "${flags_usName_}" ${__FLAGS_INFO_CATEGORY}`
+	if [ "${flags_category_}" = 'required' ]; then
+	    # checking short flags
+	    flags_short_=`_flags_getFlagInfo "${flags_usName_}" ${__FLAGS_INFO_SHORT}`
+	    if ! [[ " ${__flags_opts[@]} " =~ " -${flags_short_} " ]]; then
+		flags_missing_short_=1
+	    fi
+	    # checking long flags
+	    if ! [[ " ${__flags_opts[@]} " =~ " --${flags_name_} " ]]; then
+		if [[ ${flags_missing_short_} -eq 1 ]]; then
+		    flags_return=${FLAGS_ERROR}
+		    flags_error="The following flag is required: --${flags_name_}"
+		    _flags_error "${flags_error}"
+		fi
+	    fi
+	fi
+    done
+}
+
+# ----------------------------------------------------------------------------
 # command-line parsing
 # ----------------------------------------------------------------------------
 
@@ -1446,6 +1484,10 @@ FLAGS()
   [ ${flags_return} -eq ${FLAGS_ERROR} ] && _flags_fatal "${flags_error}"
   [[ ${flags_error} = 'help requested'    ]] && exit 0
   [[ ${flags_error} = 'version requested' ]] && exit 0
+
+  # check if required flags are specified
+  flags_validate_required_flags
+
   return ${flags_return}
 }
 
@@ -1646,8 +1688,7 @@ flags_helpflag()
   flags_columns_=`_flags_columns`
   # note: the silliness with the x's is purely for ksh93 on Ubuntu 6.06
   # because it doesn't like empty strings when used in this manner.
-  flags_emptyStr_="`echo \"x${flags_flagStr_}x\" \
-      |awk '{printf "%"length($0)+6"s", ""}'`"
+  flags_emptyStr_="`echo \"x${flags_flagStr_}x\" |awk '{printf "%"length($0)+6"s", ""}'`"
   flags_emptyStrLen_=`expr -- "${flags_emptyStr_}" : '.*'`
   # split long help text on multiple lines
   flags_helpStr_="$(echo "${flags_emptyStr_}${flags_helpStr_}" | fmt -${flags_columns_})"
